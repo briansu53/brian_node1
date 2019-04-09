@@ -1,0 +1,70 @@
+
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-body">
+            <div class="card-title">
+                新增資料
+            </div>
+            <form id="form1" onsubmit="return checkForm()">
+                <div class="form-group">
+                    <label for="sales_id">員工編號</label>
+                    <input type="text" class="form-control" id="sales_id" name="sales_id">
+                </div>
+                <div class="form-group">
+                    <label for="name">姓名</label>
+                    <input type="text" class="form-control" id="name" name="name">
+                </div>
+                <div class="form-group">
+                    <label for="birthday">生日</label>
+                    <input type="text" class="form-control"
+                           placeholder="YYYY-MM-DD"
+                           id="birthday" name="birthday">
+                </div>
+                <button type="submit" class="btn btn-primary">新增</button>
+            </form>
+        </div>
+
+
+    </div>
+
+</div>
+
+<script>
+    var sales_id = $('#sales_id'),
+        my_name = $('#name'),
+        birthday = $('#birthday');
+
+    function checkForm(){
+        var isPass = true;
+        if (! sales_id.val()) {
+            isPass = false;
+            alert('請填員工編號');
+        }
+        if (! my_name.val()) {
+            isPass = false;
+            alert('請填姓名');
+        }
+        if (! birthday.val()) {
+            isPass = false;
+            alert('請填生日');
+        }
+
+        if(isPass){
+            $.post('/data/add', $('#form1').serialize(), function(data){
+                console.log(data);
+
+                if(data.affectedRows===1){
+                    alert('資料新增成功');
+                    location.href = '/data';
+                } else {
+                    alert('資料新增失敗');
+                }
+
+            }, 'json');
+        }
+
+
+        return false;
+    }
+
+</script>
